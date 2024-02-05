@@ -1,8 +1,10 @@
-import { Box, Button, Container, Flex, Icon, Text } from '@chakra-ui/react'
-import { Home } from '@styled-icons/boxicons-regular/Home'
-import { Check } from 'styled-icons/boxicons-regular'
+import { Button, Flex, Icon, Text } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
+import { Check, Home, Analyse } from 'styled-icons/boxicons-regular'
 
 export const TopMenu = () => {
+  const navigate = useNavigate()
+
   return (
     <Flex
       as='header'
@@ -16,11 +18,14 @@ export const TopMenu = () => {
         Planeja aí!
       </Text>
       <Flex justify={'left'} gap={5}>
-        <Button leftIcon={<Icon as={Home} boxSize={6} />} color={'teal.600'}>
+        <Button leftIcon={<Icon as={Home} boxSize={6} />} color={'teal.600'} onClick={() => navigate('/')} >
           Início
         </Button>
-        <Button leftIcon={<Icon as={Check} boxSize={6} />} color={'teal.600'}>
+        <Button leftIcon={<Icon as={Check} boxSize={6} />} color={'teal.600'} onClick={() => navigate('/concluded')}>
           Concluídas
+        </Button>
+        <Button leftIcon={<Icon as={Analyse} boxSize={6} />} color={'teal.600'} onClick={() => navigate('/insights')}>
+          Insights
         </Button>
       </Flex>
     </Flex>
