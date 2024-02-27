@@ -4,7 +4,8 @@ import { listAllVacations } from '../../../services/VacationService'
 export function useVacations() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['all-vacations'],
-    queryFn: async () => listAllVacations()
+    queryFn: async () => listAllVacations(),
+    retry: false
   })
 
   return {

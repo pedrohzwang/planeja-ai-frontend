@@ -1,0 +1,1 @@
+export { EmptyStateVacation } from './EmptyStateVacation'
