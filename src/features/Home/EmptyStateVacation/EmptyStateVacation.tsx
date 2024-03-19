@@ -23,6 +23,7 @@ export function EmptyStateVacation() {
       </Center>
 
       <CreateEditVacation
+        onCancel={() => setVisibleCreate(false)}
         visible={visibleCreate}
         onClose={() => setVisibleCreate(false)}
       />

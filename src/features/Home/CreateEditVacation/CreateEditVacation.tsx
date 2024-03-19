@@ -21,10 +21,12 @@ export function CreateEditVacation(props: CreateEditVacationProps) {
         <ModalHeader>Criar férias</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-            <FormControl
+          <FormControl></FormControl>
         </ModalBody>
         <ModalFooter gap={2}>
-          <Button variant='ghost'>Cancelar</Button>
+          <Button variant='ghost' onClick={props.onCancel}>
+            Cancelar
+          </Button>
           <Button bg='teal.500' textColor={'white'} mr={3} onClick={onClose}>
             Criar
           </Button>
