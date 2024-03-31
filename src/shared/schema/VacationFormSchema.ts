@@ -1,17 +1,17 @@
 import { z } from 'zod'
+import { ETravelType } from '../enum/ETravelType'
+import { EVacationTarget } from '../enum/EVacationTarget'
 
 export const VacationFormSchema = z.object({
   id: z.string().uuid().optional(),
   description: z.string().trim().min(1, 'Preenchimento obrigatório!'),
   destiny: z.string().trim().min(1, 'Preenchimento obrigatório!'),
-  startDate: z.date(),
-  endDate: z.date(),
-  type: z
-    .enum(['REGIONAL', 'COASTLINE', 'NATIONAL', 'INTERNATIONAL'])
-    .refine((opt) => opt.length > 0, {
-      message: 'Preenchimento obrigatório!'
-    }),
-  target: z.enum(['CHILL', 'TOURISM']).refine((opt) => opt.length > 0, {
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date(),
+  type: z.nativeEnum(ETravelType).refine((opt) => opt.length > 0, {
+    message: 'Preenchimento obrigatório!'
+  }),
+  target: z.nativeEnum(EVacationTarget).refine((opt) => opt.length > 0, {
     message: 'Preenchimento obrigatório!'
   })
 })

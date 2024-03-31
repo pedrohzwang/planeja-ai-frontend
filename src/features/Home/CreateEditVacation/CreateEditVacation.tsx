@@ -11,19 +11,39 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Text
+  Text,
+  useToast
 } from '@chakra-ui/react'
 import { CreateEditVacationProps } from '.'
 import { Form } from 'react-hook-form'
-import { useVacationForm } from './hooks/useVacationForm'
 import { VacationFormSchemaType } from '../../../shared/schema/VacationFormSchema'
 import { ETravelType } from '../../../shared/enum/ETravelType'
+import { EVacationTarget } from '../../../shared/enum/EVacationTarget'
+import { useCreateVacation, useVacationForm } from './hooks'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function CreateEditVacation(props: CreateEditVacationProps) {
+  const toast = useToast()
+  const queryClient = useQueryClient()
   const onClose = () => props.onClose()
+
+  const { mutate } = useCreateVacation({
+    onSuccess: () => {
+      toast({
+        title: 'Férias criadas',
+        description: 'Férias criadas com sucesso!',
+        status: 'success',
+        duration: 3000,
+        isClosable: true
+      })
+      queryClient.invalidateQueries({ queryKey: ['all-vacations'] })
+    }
+  })
 
   const onSubmit = (data: VacationFormSchemaType) => {
     console.log(data)
+    mutate(data)
+    onClose()
   }
 
   const form = useVacationForm()
@@ -36,10 +56,15 @@ export function CreateEditVacation(props: CreateEditVacationProps) {
         return 'Nacional'
       case ETravelType.COASTLINE:
         return 'Litoral'
-      default:
+      case ETravelType.REGIONAL:
         return 'Regional'
+      default:
+        return
     }
   }
+
+  const getTargetLabel = (target: EVacationTarget) =>
+    target === EVacationTarget.CHILL ? 'Descanso' : 'Turismo'
 
   return (
     <Modal isOpen={props.visible} onClose={onClose}>
@@ -85,7 +110,15 @@ export function CreateEditVacation(props: CreateEditVacationProps) {
               </Flex>
               <Flex flexDirection='column' flexGrow={1}>
                 <Text>Objetivo da viagem</Text>
-                <Input type='date' {...form.register('endDate')} />
+                <Select {...form.register('target')}>
+                  {Object.keys(EVacationTarget).map((target) => {
+                    return (
+                      <option key={target} value={target}>
+                        {getTargetLabel(target as EVacationTarget)}
+                      </option>
+                    )
+                  })}
+                </Select>
               </Flex>
             </Flex>
           </Form>
