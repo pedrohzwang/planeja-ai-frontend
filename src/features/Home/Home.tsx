@@ -1,4 +1,12 @@
-import { Button, Center, Flex, Icon, Spinner, useToast } from '@chakra-ui/react'
+import {
+  Button,
+  Center,
+  Flex,
+  Icon,
+  Spinner,
+  Stack,
+  useToast
+} from '@chakra-ui/react'
 import { Main } from '../../components/Main'
 import { useVacations } from './hooks'
 import { useEffect, useState } from 'react'
@@ -48,9 +56,11 @@ export function Home() {
           Adicionar
         </Button>
       </Flex>
-      {data.map((vacation) => (
-        <VacationCard vacation={vacation} />
-      ))}
+      <Stack gap={3}>
+        {data.map((vacation) => (
+          <VacationCard vacation={vacation} />
+        ))}
+      </Stack>
       <CreateEditVacation
         onCancel={() => setVisibleCreateEdit(false)}
         visible={visibleCreateEdit}
