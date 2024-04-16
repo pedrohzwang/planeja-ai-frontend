@@ -1,10 +1,14 @@
-import { Center, Spinner, useToast } from '@chakra-ui/react'
+import { Button, Center, Flex, Icon, Spinner, useToast } from '@chakra-ui/react'
 import { Main } from '../../components/Main'
 import { useVacations } from './hooks'
 import { useEffect, useState } from 'react'
 import { EmptyStateVacation } from './EmptyStateVacation'
+import { VacationCard } from './VacationCard'
+import { Add } from 'styled-icons/fa-solid'
+import { CreateEditVacation } from './CreateEditVacation'
 
 export function Home() {
+  const [visibleCreateEdit, setVisibleCreateEdit] = useState(false)
   const { data, isLoading, isError } = useVacations()
   const toast = useToast()
 
@@ -30,11 +34,28 @@ export function Home() {
       </Main>
     )
 
-  if (isError || data?.length === 0) return <EmptyStateVacation />
+  if (isError || data?.length === 0 || !data) return <EmptyStateVacation />
 
   return (
     <Main>
-      <span>{JSON.stringify(data)}</span>
+      <Flex mb={3} justify='end'>
+        <Button
+          leftIcon={<Icon as={Add} boxSize={6} />}
+          backgroundColor={'teal.600'}
+          color={'white'}
+          onClick={() => setVisibleCreateEdit(true)}
+        >
+          Adicionar
+        </Button>
+      </Flex>
+      {data.map((vacation) => (
+        <VacationCard vacation={vacation} />
+      ))}
+      <CreateEditVacation
+        onCancel={() => setVisibleCreateEdit(false)}
+        visible={visibleCreateEdit}
+        onClose={() => setVisibleCreateEdit(false)}
+      />
     </Main>
   )
 }
