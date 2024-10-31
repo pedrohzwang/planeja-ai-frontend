@@ -1,4 +1,4 @@
-import { Box, Card, Checkbox, Flex, Stack, Text } from '@chakra-ui/react'
+import { Box, Card, Flex, Text } from '@chakra-ui/react'
 import { VacationCardProps } from './VacationCard.type'
 
 export function VacationCard({ vacation }: VacationCardProps) {

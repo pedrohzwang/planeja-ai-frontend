@@ -5,7 +5,8 @@ import { IUpdateVacationParams, IUseUpdateVacationParams } from '.'
 export function useUpdateVacation(params?: IUseUpdateVacationParams) {
   const { data, isPending, isError } = useMutation({
     mutationKey: ['update-vacation'],
-    mutationFn: async (params: IUpdateVacationParams) => updateVacation(params)
+    mutationFn: async (params: IUpdateVacationParams) => updateVacation(params),
+    onSuccess: params?.onSuccess
   })
 
   return {
